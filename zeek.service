@@ -1,0 +1,17 @@
+[Unit]
+Description=Zeek
+# For use with Zeek and Fiberblaze NICs
+After=network.target fiberblaze.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/su - zeek -c "/home/zeek/scripts/start-zeek.sh"
+RemainAfterExit=true
+ExecStop=/bin/su - zeek -c "/home/zeek/scripts/stop-zeek.sh"
+RemainAfterExit=true
+ExecReload=/home/zeek/scripts/start-zeek.sh
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
+
