@@ -1,0 +1,16 @@
+[Unit]
+Description=n2disk
+# For use with fiberblaze cards and service file
+# Modify to suit particular needs
+After=network.target fiberblaze.service
+
+[Service]
+Type=oneshot
+# modify to suit your particular env
+ExecStart=/bin/bash -c "/usr/local/bin/n2disk -i fbcard:0:b:0 -P /var/run/n2disk.pid -o /data2 -b 8192 -p 2048 -C 4096 --disk-limit 98% -q 1 -c 42 -w 44 &"
+ExecStop=/bin/bash -c "/usr/bin/kill -9 `/bin/cat /var/run/n2disk.pid`"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,14 @@
+[Unit]
+Description=fiberblaze
+After=network.target
+
+[Service]
+ExecStart=/bin/bash -c "/opt/fiberblaze/driver/load_driver.sh hugepages; /usr/bin/numactl -m 0 /opt/fiberblaze/bin/configurecard -d fbcard0 -c /opt/fiberblaze/fbcard.cfg --alloc-hugepages-mem 12G"
+ExecStop=/bin/bash -c "/opt/fiberblaze/bin/configurecard -d fbcard0 --dealloc-hugepages-mem; /opt/fiberblaze/driver/unload_driver.sh"
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStopSec=600
+
+[Install]
+WantedBy=multi-user.target
+
